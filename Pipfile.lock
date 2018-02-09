@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a0a77bd6cfce19fb222373c72c88ebc0902c44e6aad60d43f536f12d6a307bde"
+            "sha256": "93fe43756eda9b630fcb67fe3f59519ece3d45acc5b712c4cb7aef2362caa32c"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -61,6 +61,13 @@
                 "sha256:90c4db413b9ab71b0a06daeb01181e935e06d053cfbe91fcf2c2ca7d5df6aaa2"
             ],
             "version": "==1.1.1"
+        },
+        "django-sendgrid-v5": {
+            "hashes": [
+                "sha256:554061a8daf1a9602edf15914dcf82ed784fb9152c06e64b10a4565cd38100c9",
+                "sha256:3be3b2b3175201b8aa10e84a579c3c2796cd2dda70cb2c0e49c5eec363984d76"
+            ],
+            "version": "==0.6.87"
         },
         "enum34": {
             "hashes": [
