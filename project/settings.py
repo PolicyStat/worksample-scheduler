@@ -116,6 +116,8 @@ class Development(Common, Configuration):
         '127.0.0.1',
     ]
     AUTH_PASSWORD_VALIDATORS = []
+    # Use the sendgrid API, but don't actually deliver emails
+    SENDGRID_SANDBOX_MODE_IN_DEBUG = values.BooleanValue(True)
 
 
 class Production(Common, Configuration):
