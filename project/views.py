@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 
 from sendgrid import SendGridAPIClient
@@ -46,7 +47,7 @@ def can_start_worksample(request, worksample):
 def start_worksample(request, uuid):
     worksample = get_object_or_404(WorkSample, uuid=uuid)
     if can_start_worksample(request, worksample):
-        worksample.start_time = datetime.now()
+        worksample.start_time = timezone.now()
         worksample.save()
     return redirect('worksample', uuid=uuid)
 
@@ -71,7 +72,7 @@ def complete_worksample(request, uuid):
 def save_worksample(worksample, submission):
     worksample.submission = submission.read()
     worksample.submission_file_name = submission.name
-    worksample.finish_time = datetime.now()
+    worksample.finish_time = timezone.now()
     worksample.save()
 
 
