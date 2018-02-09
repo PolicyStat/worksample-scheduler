@@ -1,13 +1,10 @@
-import base64
 import logging
 
 from django.conf import settings
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
-
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Email, Content, Mail, Attachment
 
 from project.models import WorkSample
 
@@ -77,15 +74,13 @@ def save_worksample(worksample, submission):
 
 
 def email_worksample(worksample):
-    api_key = settings.SENDGRID_API_KEY
-    if not api_key:
+    if not settings.SENDGRID_API_KEY:
+        # On production, this setting is required. settings.py already handles that.
+        # On local dev, this setting is optional
         logger.warning(
             'SENDGRID_API_KEY was not set in the environment. No emails will be sent'
         )
         return
-    sg = SendGridAPIClient(apikey=api_key)
-    from_email = Email('noreply@policystat.com')
-
     subject = 'WorkSample submission from {}'.format(
         worksample.applicant_name,
     )
@@ -95,21 +90,16 @@ def email_worksample(worksample):
         for email in worksample.template.email_recipients.split(',')
     ]
 
-    to_email = Email(recipients.pop(0))
-    body = 'Hello'
-    content = Content('text/plain', body)
-    mail = Mail(from_email, subject, to_email, content)
+    message = 'The message'
 
-    for recipient in recipients:
-        mail.personalizations[0].add_to(Email(recipient))
-
-    attachment = Attachment()
-    attachment.content = base64.b64encode(worksample.submission).decode('utf-8')
-    attachment.filename = worksample.submission_file_name
-    attachment.disposition = 'attachment'
-    mail.add_attachment(attachment)
-
-    response = sg.client.mail.send.post(request_body=mail.get())
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
+    email = EmailMessage(
+        from_email='noreply@policystat.com',
+        to=recipients,
+        subject=subject,
+        body=message,
+    )
+    email.attach(
+        filename=worksample.submission_file_name,
+        content=worksample.submission,
+    )
+    email.send()
