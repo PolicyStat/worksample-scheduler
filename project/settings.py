@@ -106,6 +106,8 @@ class Common(object):
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+    SENDGRID_API_KEY = values.Value(None, environ_prefix=None)
+
 
 class Development(Common, Configuration):
     DEBUG = True
@@ -123,3 +125,5 @@ class Production(Common, Configuration):
     SECURE_SSL_REDIRECT = values.BooleanValue(True)
     SECURE_SSL_HOST = values.Value(None)
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    SENDGRID_API_KEY = values.Value(None, environ_prefix=None, environ_required=True)

@@ -1,7 +1,7 @@
 import base64
-import os
-from datetime import datetime
+import logging
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -16,6 +16,8 @@ __all__ = [
     'start_worksample',
     'complete_worksample',
 ]
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -74,7 +76,12 @@ def save_worksample(worksample, submission):
 
 
 def email_worksample(worksample):
-    api_key = os.environ.get('SENDGRID_API_KEY')
+    api_key = settings.SENDGRID_API_KEY
+    if not api_key:
+        logger.warning(
+            'SENDGRID_API_KEY was not set in the environment. No emails will be sent'
+        )
+        return
     sg = SendGridAPIClient(apikey=api_key)
     from_email = Email('noreply@policystat.com')
 
