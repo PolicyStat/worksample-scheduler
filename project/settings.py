@@ -108,6 +108,8 @@ class Common(object):
 
     EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
     SENDGRID_API_KEY = values.Value(None, environ_prefix=None)
+    SERVER_EMAIL = values.Value(None)
+    ADMINS = values.ListValue([], separator=' ')
 
 
 class Development(Common, Configuration):
