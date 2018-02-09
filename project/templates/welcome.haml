@@ -1,0 +1,41 @@
+- extends 'base.haml'
+
+- block page_title
+    Welcome
+
+- block content
+    .container
+        .jumbotron
+            %h1.display-4
+                Hello,
+                {{ worksample.applicant_name|title }}!
+            %p.lead
+                As part of the interviewing process,
+                you will need to complete a timed work sample.
+
+            %p.lead
+                We want you to succeed in this role
+                and so you are encouraged to take this
+                work sample seriously.
+
+        .card
+            .card-header
+                Instructions
+            .card-body
+                {{ worksample.template.welcome_message|safe }}
+            .card-footer.text-center
+                %p
+                    You will have
+                    {{ worksample.template.allowed_minutes }}
+                    minutes to complete this work sample.
+                    The timer starts once you click the button below.
+
+                %form{
+                    method: 'post',
+                    action: '{% url "start_worksample" uuid=worksample.uuid %}',
+                }
+                    - csrf_token
+                    %button.btn.btn-primary.btn-lg{
+                        type: 'submit',
+                    }
+                        Begin

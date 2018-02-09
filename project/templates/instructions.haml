@@ -1,0 +1,44 @@
+- extends 'base.haml'
+
+- block page_title
+    Work Sample
+
+- block content
+    .container
+        .card.mb-4
+            .card-body
+                {{ worksample.template.welcome_message|safe }}
+            .card-footer.text-center
+                You now have
+                {{ worksample.template.allowed_minutes }}
+                minutes to complete this work sample.
+
+        .card.mb-4
+            .card-body
+                {{ worksample.template.instructions|safe }}
+
+        .card
+            .card-header
+                Upload and Complete
+            .card-body
+                When you're finished,
+                upload your submission using the form below.
+                If you have multiple files to submit,
+                you'll need to zip them together
+                and upload the zip.
+            .card-footer.text-center
+                %form.mx-3{
+                    method: 'post',
+                    action: '{% url "complete_worksample" uuid=worksample.uuid %}',
+                    enctype: 'multipart/form-data',
+                }
+                    - csrf_token
+                    .form-group.row
+                        %input#submission.form-control-file.border.rounded.bg-white{
+                            type: 'file',
+                            name: 'submission',
+                        }
+                    %button.btn.btn-primary.btn-lg{
+                        type: 'submit',
+                    }
+                        Upload and Complete Work Sample
