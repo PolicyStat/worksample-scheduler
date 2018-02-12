@@ -19,6 +19,7 @@ class WorkSampleAdmin(admin.ModelAdmin):
         'finish_time',
         'minutes',
     )
+    fields = ('template', 'applicant_name', 'applicant_email')
 
     def access_url(self, obj):
         path = obj.get_absolute_url()
