@@ -25,12 +25,10 @@ class WorkSampleAdmin(admin.ModelAdmin):
         return format_html('<a href="{path}">{path}</a>'.format(path=path))
 
     def minutes(self, obj):
-        if obj.finish_time is None:
+        delta_minutes = obj.get_time_spent_in_minutes()
+        if delta_minutes is None:
             return ''
-
-        delta = obj.finish_time - obj.start_time
-        delta_minutes = delta.total_seconds() / 60
-        return '{:.4}'.format(delta_minutes)
+        return '{:.2f}'.format(delta_minutes)
 
 
 admin.site.register(WorkSampleTemplate, WorkSampleTemplateAdmin)

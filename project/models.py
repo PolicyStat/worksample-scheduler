@@ -36,3 +36,9 @@ class WorkSample(models.Model):
 
     def get_absolute_url(self):
         return reverse('worksample', kwargs=dict(uuid=self.uuid))
+
+    def get_time_spent_in_minutes(self):
+        if self.finish_time is None:
+            return
+        delta = self.finish_time - self.start_time
+        return delta.total_seconds() / 60
