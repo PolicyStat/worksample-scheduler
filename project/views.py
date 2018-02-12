@@ -81,7 +81,7 @@ def email_worksample(worksample):
             'SENDGRID_API_KEY was not set in the environment. No emails will be sent'
         )
         return
-    subject = 'WorkSample submission from {}'.format(
+    subject = 'Work Sample submission from {}'.format(
         worksample.applicant_name,
     )
 
