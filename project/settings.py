@@ -109,7 +109,8 @@ class Common(object):
     EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
     SENDGRID_API_KEY = values.Value(None, environ_prefix=None)
     SERVER_EMAIL = values.Value(None)
-    ADMINS = values.ListValue([], separator=' ')
+    # DJANGO_ADMINS=Bob,bob@bob.com;Dave,dave@dave.com
+    ADMINS = values.SingleNestedTupleValue([])
 
 
 class Development(Common, Configuration):
