@@ -1,6 +1,8 @@
+import mimetypes
 import logging
 
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils import timezone
@@ -14,6 +16,7 @@ __all__ = [
     'index',
     'start_worksample',
     'complete_worksample',
+    'download_worksample_submission',
 ]
 
 logger = logging.getLogger(__name__)
@@ -110,3 +113,16 @@ def email_worksample(request, worksample):
         content=worksample.submission,
     )
     email.send()
+
+
+@staff_member_required
+def download_worksample_submission(request, uuid):
+    worksample = get_object_or_404(WorkSample, uuid=uuid)
+    content_type, encoding = mimetypes.guess_type(worksample.submission_file_name)
+    response = HttpResponse(worksample.submission, content_type=content_type)
+    disposition = 'attachment; filename="{}"'.format(
+        worksample.submission_file_name,
+    )
+    response['Content-Disposition'] = disposition
+    response['Content-Length'] = len(worksample.submission)
+    return response

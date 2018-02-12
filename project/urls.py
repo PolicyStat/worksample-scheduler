@@ -32,4 +32,9 @@ urlpatterns = [
         project.views.complete_worksample,
         name='complete_worksample',
     ),
+    path(
+        'worksample/<uuid:uuid>/download',
+        project.views.download_worksample_submission,
+        name='download_worksample',
+    ),
 ]

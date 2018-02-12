@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.urls import reverse
 from django.utils.html import format_html
 
 from project.models import WorkSampleTemplate, WorkSample
@@ -18,6 +19,7 @@ class WorkSampleAdmin(admin.ModelAdmin):
         'start_time',
         'finish_time',
         'minutes',
+        'download',
     )
     fields = ('template', 'applicant_name', 'applicant_email')
 
@@ -30,6 +32,12 @@ class WorkSampleAdmin(admin.ModelAdmin):
         if delta_minutes is None:
             return ''
         return '{:.2f}'.format(delta_minutes)
+
+    def download(self, obj):
+        if obj.submission is None:
+            return ''
+        download_url = reverse('download_worksample', kwargs=dict(uuid=obj.uuid))
+        return format_html('<a href="{url}">Download</a>'.format(url=download_url))
 
 
 admin.site.register(WorkSampleTemplate, WorkSampleTemplateAdmin)
