@@ -1,0 +1,17 @@
+- extends 'base.haml'
+
+- block page_title
+    Thank you for completing the work sample
+
+- block content
+    .container
+        .jumbotron
+            %h1.display-4
+                Thank you,
+                {{ worksample.applicant_name|title }}!
+            %p.lead
+                Your work sample has been successfully submitted.
+                We'll review your submission,
+                and be in touch soon.
+        %p
+            {{ worksample.template.final_message|safe }}
