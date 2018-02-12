@@ -6,12 +6,23 @@ from django_extensions.db.models import TimeStampedModel
 
 
 class WorkSampleTemplate(TimeStampedModel):
-    description = models.CharField(max_length=255)
-    welcome_message = models.TextField()
-    instructions = models.TextField()
-    final_message = models.TextField()
+    description = models.CharField(
+        max_length=255,
+        help_text='What role is this for?',
+    )
+    welcome_message = models.TextField(
+        help_text='The first page that is displayed. HTML is allowed.'
+    )
+    instructions = models.TextField(
+        help_text='The work sample instructions. HTML is allowed.'
+    )
+    final_message = models.TextField(
+        help_text='The page that appears after submitting. HTML is allowed.'
+    )
     allowed_minutes = models.IntegerField()
-    email_recipients = models.TextField()
+    email_recipients = models.TextField(
+        help_text='Multiple email addresses can be entered. Separate addresses using a comma',
+    )
 
     def __str__(self):
         return self.description
