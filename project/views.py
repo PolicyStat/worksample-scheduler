@@ -5,6 +5,7 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
+from django.template.loader import render_to_string
 
 from project.models import WorkSample
 
@@ -62,7 +63,7 @@ def complete_worksample(request, uuid):
     if can_complete_worksample(request, worksample):
         submission = request.FILES['submission']
         save_worksample(worksample, submission)
-        email_worksample(worksample)
+        email_worksample(request, worksample)
     return redirect('worksample', uuid=uuid)
 
 
@@ -73,7 +74,7 @@ def save_worksample(worksample, submission):
     worksample.save()
 
 
-def email_worksample(worksample):
+def email_worksample(request, worksample):
     if not settings.SENDGRID_API_KEY:
         # On production, this setting is required. settings.py already handles that.
         # On local dev, this setting is optional
@@ -81,8 +82,10 @@ def email_worksample(worksample):
             'SENDGRID_API_KEY was not set in the environment. No emails will be sent'
         )
         return
-    subject = 'Work Sample submission from {}'.format(
-        worksample.applicant_name,
+    subject = '{role} work sample submission from {name} ({uuid})'.format(
+        role=worksample.template.description,
+        name=worksample.applicant_name,
+        uuid=worksample.uuid,
     )
 
     recipients = [
@@ -90,7 +93,11 @@ def email_worksample(worksample):
         for email in worksample.template.email_recipients.split(',')
     ]
 
-    message = 'The message'
+    context = dict(
+        request=request,
+        worksample=worksample,
+    )
+    message = render_to_string('submission_email.txt', context)
 
     email = EmailMessage(
         from_email='noreply@policystat.com',

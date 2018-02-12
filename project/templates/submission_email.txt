@@ -1,0 +1,15 @@
+Hooray!
+
+UUID: {{ worksample.uuid }}
+
+Email: {{ worksample.applicant_email }}
+
+Start: {{ worksample.start_time }}
+
+Stop: {{ worksample.finish_time }}
+
+Duration: {{ worksample.get_time_spent_in_minutes|floatformat }} minutes
+
+IP Address: {{ request.META.REMOTE_ADDR }}
+
+Browser: {{ request.META.HTTP_USER_AGENT }}
