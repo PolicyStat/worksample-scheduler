@@ -1,0 +1,91 @@
+- extends 'base.haml'
+
+- block page_title
+    Bulk Create and Send Work Samples
+
+- block content
+    .container
+        .card.mb-4
+            .card-header
+                %h3.mb-0
+                    Bulk Create and Send Work Samples
+            .card-body
+                .alert.alert-warning
+                    This form will send emails to the email addresses listed below.
+                %form.needs-validation{
+                    method: 'post',
+                    action: '{% url "bulk_create_worksample" %}',
+                }
+                    - csrf_token
+                    .form-group
+                        %label
+                            Work sample template
+                        %select.form-control{name: 'worksample_template', required}
+                            %option{value:''}
+                                Select a template
+                            - for template_pk, template_description in worksample_templates
+                                %option{value: '{{ template_pk }}'}
+                                    {{ template_description }}
+                    .form-group
+                        %label
+                            Applicant names and emails
+                        %textarea.form-control{
+                            name:'applicant_names_and_emails',
+                            placeholder: 'Type here. Example: first-name last-name email@email.com',
+                            required,
+                        }
+                        %small.form-text.text-muted
+                            Multiple applicants can be entered on each line.
+                            Each line consists of the applicant's first-name,
+                            a space,
+                            the applicant's last-name,
+                            a space,
+                            followed by the applicant's email address.
+
+                    .form-group
+                        %label
+                            From address
+                        %input.form-control{
+                            type: 'email',
+                            name: 'from_address',
+                            required,
+                        }
+
+                    .form-group
+                        %label
+                            Email subject
+                        %input.form-control{
+                            name: 'email_subject',
+                            required,
+                        }
+                        %small.form-text.text-muted
+                            Example: Thanks for applying!
+
+                    .form-group
+                        %label
+                            Email template
+                        %textarea.form-control{
+                            rows: "10",
+                            name:'email_template',
+                            placeholder: 'Type here. Example: Hello {% verbatim %}{{ APPLICANT_FIRST_NAME }}{% endverbatim %}, ...',
+                            required,
+                        }
+                        %small.form-text.text-muted
+                            You can use the following placeholders in the template:
+                            {% verbatim %}
+                            <strong>{{ APPLICANT_FIRST_NAME }}</strong>
+                            and
+                            <strong>{{ WORKSAMPLE_URL }}</strong>
+                            {% endverbatim %}
+
+                    .form-group
+                        .form-check
+                            %input.form-check-input{type:"checkbox", required}
+                            %label.form-check-label
+                                I acknowledge that the emails
+                                and other information above is correct
+                                and that clicking the
+                                "Send emails" button
+                                will send emails to all of the listed addresses.
+                        %button.btn.btn-success.btn-lg.float-right{type: 'submit'}
+                            Send emails

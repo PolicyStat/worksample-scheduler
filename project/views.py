@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
 
-from project.models import WorkSample
+from project.models import WorkSample, WorkSampleTemplate
 
 
 __all__ = [
@@ -17,6 +17,7 @@ __all__ = [
     'start_worksample',
     'complete_worksample',
     'download_worksample_submission',
+    'bulk_send_worksample_email',
 ]
 
 logger = logging.getLogger(__name__)
@@ -103,7 +104,7 @@ def email_worksample(request, worksample):
     message = render_to_string('submission_email.txt', context)
 
     email = EmailMessage(
-        from_email='noreply@policystat.com',
+        from_email=settings.SERVER_EMAIL,
         to=recipients,
         subject=subject,
         body=message,
@@ -126,3 +127,20 @@ def download_worksample_submission(request, uuid):
     response['Content-Disposition'] = disposition
     response['Content-Length'] = len(worksample.submission)
     return response
+
+
+@staff_member_required
+def bulk_send_worksample_email(request):
+    if request.method != 'POST':
+        template = 'bulk_send_worksample_email.haml'
+        templates = list(WorkSampleTemplate.objects.values_list('pk', 'description'))
+        context = dict(
+            worksample_templates=templates,
+        )
+        return render(request, template, context)
+
+    from project.forms import BulkCreateSendForm
+    form = BulkCreateSendForm(request.POST)
+    if form.is_valid():
+        form.send_emails()
+    return redirect('bulk_create_worksample')
