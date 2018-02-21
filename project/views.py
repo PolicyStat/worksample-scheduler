@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
 
+from project.forms import BulkCreateSendForm
 from project.models import WorkSample, WorkSampleTemplate
 
 
@@ -139,7 +140,6 @@ def bulk_send_worksample_email(request):
         )
         return render(request, template, context)
 
-    from project.forms import BulkCreateSendForm
     form = BulkCreateSendForm(request.POST)
     if form.is_valid():
         form.send_emails()
