@@ -14,18 +14,24 @@
                         data-target: '#email{{ forloop.counter }}',
                     }
                         Show content
-                    - if email.was_sent
-                        Email sent to
-                    - else
-                        Email
+                    Email
+                    - if not email.was_sent
                         %strong
                             not
-                        sent to
-                    {{ email.to }}
+                    sent to
+                    %span.badge.badge-info
+                        {{ email.to }}
                     .collapse{id: 'email{{ forloop.counter }}'}
-                        %strong
-                            {{ email.subject }}
                         %hr
+                        %p.mb-0
+                            %strong
+                                From:
+                            %span.badge.badge-info
+                                {{ email.from_address }}
+                        %p
+                            %strong
+                                Subject:
+                            {{ email.subject }}
                         %pre {{ email.body }}
         .card.mb-4
             .card-header
