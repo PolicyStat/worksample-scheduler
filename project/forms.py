@@ -53,6 +53,7 @@ class BulkCreateSendForm(forms.Form):
                 template=data['worksample_template'],
                 applicant_name='{} {}'.format(first_name, last_name),
                 applicant_email=applicant_email,
+                created_by_user=request.user,
             )
             path = worksample.get_absolute_url()
             worksample_url = request.build_absolute_uri(path)
