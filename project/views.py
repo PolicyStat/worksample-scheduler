@@ -136,7 +136,6 @@ def bulk_send_worksample_email(request):
         template = 'bulk_send_worksample_email.haml'
         templates = list(WorkSampleTemplate.objects.values_list('pk', 'description'))
         emails = request.session.get('emails', None)
-        print(emails)
         context = dict(
             worksample_templates=templates,
             form=request.session.get('bulk_create_form'),
