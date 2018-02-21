@@ -6,6 +6,8 @@ from django_extensions.db.models import TimeStampedModel
 
 
 class WorkSampleTemplate(TimeStampedModel):
+    is_active = models.BooleanField(default=True)
+
     description = models.CharField(
         max_length=255,
         help_text='What role is this for?',
