@@ -146,7 +146,7 @@ def bulk_send_worksample_email(request):
     request.session['bulk_create_form'] = request.POST
     form = BulkCreateSendForm(request.POST)
     if form.is_valid():
-        emails = form.send_emails(request, dry_run=True)
+        emails = form.send_emails(request)
         session_emails = []
         for email_sent, email in emails:
             body = email.body

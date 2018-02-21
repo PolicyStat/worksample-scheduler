@@ -14,7 +14,7 @@ class BulkCreateSendForm(forms.Form):
     from_address = forms.CharField(max_length=200)
     email_subject = forms.CharField(max_length=200)
     email_template = forms.CharField()
-    show_preview = forms.BooleanField()
+    should_send_emails = forms.BooleanField(required=False)
 
     def clean_applicant_names_and_emails(self):
         data = self.cleaned_data['applicant_names_and_emails']
@@ -23,11 +23,6 @@ class BulkCreateSendForm(forms.Form):
             for line in data.split('\n')
         ]
         return applicant_names_and_emails
-
-    def clean_show_preview(self):
-        if self.cleaned_data['show_preview'] == 'preview':
-            return True
-        return False
 
     def _build_email_messages(self, request):
         data = self.cleaned_data
@@ -61,12 +56,13 @@ class BulkCreateSendForm(forms.Form):
                 email.attach_alternative(body_with_converted_linebreaks, 'text/html')
             yield email
 
-    def send_emails(self, request, dry_run=False):
+    def send_emails(self, request):
         messages = list(self._build_email_messages(request))
         results = []
-        result = dry_run
+        should_send_emails = self.cleaned_data['should_send_emails']
         for message in messages:
-            if not dry_run:
-                result = message.send()
-            results.append((result, message))
+            email_was_sent = False
+            if should_send_emails:
+                email_was_sent = message.send()
+            results.append((email_was_sent, message))
         return results
