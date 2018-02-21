@@ -6,7 +6,14 @@ from project.models import WorkSampleTemplate, WorkSample
 
 
 class WorkSampleTemplateAdmin(admin.ModelAdmin):
-    list_display = ('is_active', 'description', 'allowed_minutes', 'email_recipients')
+    list_display = (
+        'is_active',
+        'description',
+        'allowed_minutes',
+        'email_recipients',
+        'created',
+        'modified',
+    )
 
 
 class WorkSampleAdmin(admin.ModelAdmin):
