@@ -80,6 +80,7 @@
                             required,
                         } {{ form.email_template }}
                         %small.form-text.text-muted
+                            HTML is allowed.
                             You can use the following placeholders in the template:
                             {% verbatim %}
                             <strong>{{ APPLICANT_FIRST_NAME }}</strong>
