@@ -13,7 +13,15 @@ class WorkSampleTemplateAdmin(admin.ModelAdmin):
         'email_recipients',
         'created',
         'modified',
+        'created_by_user',
     )
+
+    exclude = ('created_by_user', )
+
+    def save_model(self, request, obj, form, change):
+        if not hasattr(obj, 'created_by_user'):
+            obj.created_by_user = request.user
+        super().save_model(request, obj, form, change)
 
 
 class WorkSampleAdmin(admin.ModelAdmin):
@@ -29,8 +37,14 @@ class WorkSampleAdmin(admin.ModelAdmin):
         'download',
         'created',
         'modified',
+        'created_by_user',
     )
     fields = ('template', 'applicant_name', 'applicant_email')
+
+    def save_model(self, request, obj, form, change):
+        if not hasattr(obj, 'created_by_user'):
+            obj.created_by_user = request.user
+        super().save_model(request, obj, form, change)
 
     def access_url(self, obj):
         path = obj.get_absolute_url()

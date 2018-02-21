@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django_extensions.db.models import TimeStampedModel
@@ -26,6 +27,8 @@ class WorkSampleTemplate(TimeStampedModel):
         help_text='Multiple email addresses can be entered. Separate addresses using a comma',
     )
 
+    created_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+
     def __str__(self):
         return self.description
 
@@ -39,6 +42,7 @@ class WorkSample(TimeStampedModel):
     submission_file_name = models.CharField(max_length=255, null=True, blank=True)
     applicant_name = models.CharField(max_length=255)
     applicant_email = models.CharField(max_length=255, null=True, blank=True)
+    created_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{name} <{email}> ({uuid})'.format(
