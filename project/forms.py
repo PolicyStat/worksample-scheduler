@@ -49,6 +49,8 @@ class BulkCreateSendForm(forms.Form):
 
     def send_emails(self):
         messages = list(self._build_email_messages())
+        results = []
         for message in messages:
-            pass
-        # message.send()
+            result = message.send()
+            results.append((result, message))
+        return results
