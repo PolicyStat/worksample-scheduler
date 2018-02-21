@@ -134,8 +134,10 @@ def download_worksample_submission(request, uuid):
 def bulk_send_worksample_email(request):
     if request.method != 'POST':
         template = 'bulk_send_worksample_email.haml'
-        templates = list(WorkSampleTemplate.objects.values_list('pk', 'description'))
-        emails = request.session.get('emails', None)
+        templates = list(WorkSampleTemplate.objects.filter(
+            is_active=True,
+        ).values_list('pk', 'description'))
+        emails = request.session.pop('emails', None)
         context = dict(
             worksample_templates=templates,
             form=request.session.get('bulk_create_form'),
