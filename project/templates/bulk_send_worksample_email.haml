@@ -18,8 +18,6 @@
                 %h3.mb-0
                     Bulk Create and Send Work Samples
             .card-body
-                .alert.alert-warning
-                    This form will send emails to the email addresses listed below.
                 %form.needs-validation{
                     method: 'post',
                     action: '{% url "bulk_create_worksample" %}',
@@ -90,13 +88,16 @@
                             {% endverbatim %}
 
                     .form-group
-                        .form-check
-                            %input.form-check-input{type:"checkbox", required}
-                            %label.form-check-label
-                                I acknowledge that the emails
-                                and other information above is correct
-                                and that clicking the
-                                "Send emails" button
-                                will send emails to all of the listed addresses.
+                        .alert.alert-warning
+                            %h4.alert-heading
+                                Heads up!
+                            .form-check
+                                %input.form-check-input{type:"checkbox", required}
+                                %label.form-check-label
+                                    I acknowledge that the emails
+                                    and other information above is correct
+                                    and that clicking the
+                                    "Send emails" button
+                                    will send emails to all of the listed addresses.
                         %button.btn.btn-success.btn-lg.float-right{type: 'submit'}
                             Send emails
