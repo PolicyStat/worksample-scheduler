@@ -158,6 +158,7 @@ def bulk_send_worksample_email(request):
                 was_sent=email_sent,
                 subject=email.subject,
                 to=email.to[0],
+                from_address=email.from_email,
                 body=body,
             )
             session_emails.append(session_email)
