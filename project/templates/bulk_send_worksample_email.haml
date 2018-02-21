@@ -72,6 +72,13 @@
                             value: '{{ form.from_address }}',
                             required,
                         }
+                        %small.form-text.text-muted
+                            The email will show up in the candidate's inbox as
+                            from this address
+                            with your name:
+                            %strong
+                                {{ request.user.first_name|title }}
+                                {{ request.user.last_name|title }}
 
                     .form-group
                         %label
