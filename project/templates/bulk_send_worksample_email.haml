@@ -7,24 +7,26 @@
     .container
         - if emails
             - for email in emails
-                - if email.was_sent
-                    .alert.alert-success
-                        %button.btn.btn-sm.float-right{
-                            type: 'button',
-                            data-toggle: 'collapse',
-                            data-target: '#email{{ forloop.counter }}',
-                        }
-                            Show content
+                %div{'class': 'alert {% if email.was_sent %}alert-success{% else %}alert-warning{% endif %}'}
+                    %button.btn.btn-sm.float-right{
+                        type: 'button',
+                        data-toggle: 'collapse',
+                        data-target: '#email{{ forloop.counter }}',
+                    }
+                        Show content
+                    - if email.was_sent
                         Email sent to
-                        {{ email.to }}
-                        .collapse{id: 'email{{ forloop.counter }}'}
-                            %strong
-                                {{ email.subject }}
-                            %hr
-                            %pre {{ email.body }}
-                - else
-                    .alert.alert-warning
-                        {{ email.message }}
+                    - else
+                        Email
+                        %strong
+                            not
+                        sent to
+                    {{ email.to }}
+                    .collapse{id: 'email{{ forloop.counter }}'}
+                        %strong
+                            {{ email.subject }}
+                        %hr
+                        %pre {{ email.body }}
         .card.mb-4
             .card-header
                 %h3.mb-0
