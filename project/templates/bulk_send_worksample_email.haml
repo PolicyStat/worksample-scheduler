@@ -5,14 +5,26 @@
 
 - block content
     .container
-        - if messages
-            - for message in messages
-                - if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS
+        - if emails
+            - for email in emails
+                - if email.was_sent
                     .alert.alert-success
-                        {{ message }}
+                        %button.btn.btn-sm.float-right{
+                            type: 'button',
+                            data-toggle: 'collapse',
+                            data-target: '#email{{ forloop.counter }}',
+                        }
+                            Show content
+                        Email sent to
+                        {{ email.to }}
+                        .collapse{id: 'email{{ forloop.counter }}'}
+                            %strong
+                                {{ email.subject }}
+                            %hr
+                            %pre {{ email.body }}
                 - else
                     .alert.alert-warning
-                        {{ message }}
+                        {{ email.message }}
         .card.mb-4
             .card-header
                 %h3.mb-0

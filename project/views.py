@@ -3,7 +3,6 @@ import logging
 
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils import timezone
@@ -136,24 +135,30 @@ def bulk_send_worksample_email(request):
     if request.method != 'POST':
         template = 'bulk_send_worksample_email.haml'
         templates = list(WorkSampleTemplate.objects.values_list('pk', 'description'))
+        emails = request.session.get('emails', None)
+        print(emails)
         context = dict(
             worksample_templates=templates,
             form=request.session.get('bulk_create_form'),
+            emails=emails,
         )
         return render(request, template, context)
 
     request.session['bulk_create_form'] = request.POST
     form = BulkCreateSendForm(request.POST)
     if form.is_valid():
-        for was_sent, message in form.send_emails(request):
-            if was_sent:
-                messages.success(request, '"{}" was sent to {}'.format(
-                    message.subject,
-                    message.to[0],
-                ))
-            else:
-                messages.error(request, 'Failed to send "{}" to {}'.format(
-                    message.subject,
-                    message.to[0],
-                ))
+        emails = form.send_emails(request, dry_run=True)
+        session_emails = []
+        for email_sent, email in emails:
+            body = email.body
+            if email.alternatives:
+                body = email.alternatives[0][0]
+            session_email = dict(
+                was_sent=email_sent,
+                subject=email.subject,
+                to=email.to[0],
+                body=body,
+            )
+            session_emails.append(session_email)
+        request.session['emails'] = session_emails
     return redirect('bulk_create_worksample')
