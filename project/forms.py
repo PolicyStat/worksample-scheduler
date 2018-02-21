@@ -22,7 +22,7 @@ class BulkCreateSendForm(forms.Form):
         ]
         return applicant_names_and_emails
 
-    def _build_email_messages(self):
+    def _build_email_messages(self, request):
         data = self.cleaned_data
         email_body = Template(data['email_template'])
         email_subject = Template(data['email_subject'])
@@ -35,9 +35,11 @@ class BulkCreateSendForm(forms.Form):
                 applicant_name='{} {}'.format(first_name, last_name),
                 applicant_email=applicant_email,
             )
+            path = worksample.get_absolute_url()
+            worksample_url = request.build_absolute_uri(path)
             context = Context(dict(
                 APPLICANT_FIRST_NAME=first_name.title(),
-                WORKSAMPLE_URL=worksample.get_absolute_url(),
+                WORKSAMPLE_URL=worksample_url,
             ))
             email = EmailMessage(
                 from_email=data['from_address'],
@@ -47,8 +49,8 @@ class BulkCreateSendForm(forms.Form):
             )
             yield email
 
-    def send_emails(self):
-        messages = list(self._build_email_messages())
+    def send_emails(self, request):
+        messages = list(self._build_email_messages(request))
         results = []
         for message in messages:
             result = message.send()
