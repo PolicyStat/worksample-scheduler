@@ -25,8 +25,8 @@ class BulkCreateSendForm(forms.Form):
 
     def _build_email_messages(self, request):
         data = self.cleaned_data
-        email_body = Template(data['email_template'])
-        email_subject = Template(data['email_subject'])
+        template_body = Template(data['email_template'])
+        template_subject = Template(data['email_subject'])
 
         applicant_names_and_emails = data['applicant_names_and_emails']
 
@@ -42,12 +42,12 @@ class BulkCreateSendForm(forms.Form):
                 APPLICANT_FIRST_NAME=first_name.title(),
                 WORKSAMPLE_URL=worksample_url,
             ))
-            body = email_body.render(context)
+            body = template_body.render(context)
             body_no_html = strip_tags(body)
             email = EmailMultiAlternatives(
                 from_email=data['from_address'],
                 to=[applicant_email],
-                subject=email_subject.render(context),
+                subject=template_subject.render(context),
                 body=body_no_html,
             )
             if body_no_html != body:
