@@ -30,7 +30,7 @@ class WorkSampleTemplate(TimeStampedModel):
         return self.description
 
 
-class WorkSample(models.Model):
+class WorkSample(TimeStampedModel):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     template = models.ForeignKey(WorkSampleTemplate, on_delete=models.PROTECT)
     start_time = models.DateTimeField(null=True, blank=True)

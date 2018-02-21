@@ -27,6 +27,8 @@ class WorkSampleAdmin(admin.ModelAdmin):
         'finish_time',
         'minutes',
         'download',
+        'created',
+        'modified',
     )
     fields = ('template', 'applicant_name', 'applicant_email')
 
