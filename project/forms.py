@@ -31,21 +31,29 @@ class BulkCreateSendForm(forms.Form):
 
         applicant_names_and_emails = data['applicant_names_and_emails']
 
+        from_address = data['from_address']
+        if request.user.first_name:
+            from_address = '{} {} <{}>'.format(
+                request.user.first_name,
+                request.user.last_name,
+                from_address,
+            )
+
+        # if we're not actually sending the email, don't save the
+        # worksample instance to the DB
+        worksample_create_func = WorkSample
+        if self.cleaned_data['should_send_emails']:
+            worksample_create_func = WorkSample.objects.create
+
         for first_name, last_name, applicant_email in applicant_names_and_emails:
-            if self.cleaned_data['should_send_emails']:
-                worksample = WorkSample.objects.create(
-                    template=data['worksample_template'],
-                    applicant_name='{} {}'.format(first_name, last_name),
-                    applicant_email=applicant_email,
-                )
-            else:
-                # if we're not actually sending the email, don't save the
-                # worksample instance to the DB
-                worksample = WorkSample(
-                    template=data['worksample_template'],
-                    applicant_name='{} {}'.format(first_name, last_name),
-                    applicant_email=applicant_email,
-                )
+            first_name = first_name.title()
+            last_name = last_name.title()
+
+            worksample = worksample_create_func(
+                template=data['worksample_template'],
+                applicant_name='{} {}'.format(first_name, last_name),
+                applicant_email=applicant_email,
+            )
             path = worksample.get_absolute_url()
             worksample_url = request.build_absolute_uri(path)
             context = Context(dict(
@@ -54,8 +62,10 @@ class BulkCreateSendForm(forms.Form):
             ))
             body = template_body.render(context)
             body_no_html = strip_tags(body)
+
+            applicant_email = '{} {} <{}>'.format(first_name, last_name, applicant_email)
             email = EmailMultiAlternatives(
-                from_email=data['from_address'],
+                from_email=from_address,
                 to=[applicant_email],
                 subject=template_subject.render(context),
                 body=body_no_html,
