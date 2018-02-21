@@ -5,6 +5,14 @@
 
 - block content
     .container
+        - if messages
+            - for message in messages
+                - if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS
+                    .alert.alert-success
+                        {{ message }}
+                - else
+                    .alert.alert-warning
+                        {{ message }}
         .card.mb-4
             .card-header
                 %h3.mb-0

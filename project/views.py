@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils import timezone
@@ -142,5 +143,15 @@ def bulk_send_worksample_email(request):
 
     form = BulkCreateSendForm(request.POST)
     if form.is_valid():
-        form.send_emails()
+        for was_sent, message in form.send_emails():
+            if was_sent:
+                messages.success(request, '"{}" was sent to {}'.format(
+                    message.subject,
+                    message.to[0],
+                ))
+            else:
+                messages.error(request, 'Failed to send "{}" to {}'.format(
+                    message.subject,
+                    message.to[0],
+                ))
     return redirect('bulk_create_worksample')
