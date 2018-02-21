@@ -1,6 +1,7 @@
 from django import forms
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template
+from django.utils.html import strip_tags
 
 from project.models import WorkSample, WorkSampleTemplate
 
@@ -41,12 +42,16 @@ class BulkCreateSendForm(forms.Form):
                 APPLICANT_FIRST_NAME=first_name.title(),
                 WORKSAMPLE_URL=worksample_url,
             ))
-            email = EmailMessage(
+            body = email_body.render(context)
+            body_no_html = strip_tags(body)
+            email = EmailMultiAlternatives(
                 from_email=data['from_address'],
                 to=[applicant_email],
                 subject=email_subject.render(context),
-                body=email_body.render(context),
+                body=body_no_html,
             )
+            if body_no_html != body:
+                email.attach_alternative(body, 'text/html')
             yield email
 
     def send_emails(self, request):
