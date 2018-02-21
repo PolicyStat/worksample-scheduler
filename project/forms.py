@@ -55,10 +55,12 @@ class BulkCreateSendForm(forms.Form):
                 email.attach_alternative(body_with_converted_linebreaks, 'text/html')
             yield email
 
-    def send_emails(self, request):
+    def send_emails(self, request, dry_run=False):
         messages = list(self._build_email_messages(request))
         results = []
+        result = dry_run
         for message in messages:
-            result = message.send()
+            if not dry_run:
+                result = message.send()
             results.append((result, message))
         return results
