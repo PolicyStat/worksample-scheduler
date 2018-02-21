@@ -138,9 +138,11 @@ def bulk_send_worksample_email(request):
         templates = list(WorkSampleTemplate.objects.values_list('pk', 'description'))
         context = dict(
             worksample_templates=templates,
+            form=request.session.get('bulk_create_form'),
         )
         return render(request, template, context)
 
+    request.session['bulk_create_form'] = request.POST
     form = BulkCreateSendForm(request.POST)
     if form.is_valid():
         for was_sent, message in form.send_emails():
