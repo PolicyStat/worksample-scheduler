@@ -32,11 +32,20 @@ class BulkCreateSendForm(forms.Form):
         applicant_names_and_emails = data['applicant_names_and_emails']
 
         for first_name, last_name, applicant_email in applicant_names_and_emails:
-            worksample = WorkSample.objects.create(
-                template=data['worksample_template'],
-                applicant_name='{} {}'.format(first_name, last_name),
-                applicant_email=applicant_email,
-            )
+            if self.cleaned_data['should_send_emails']:
+                worksample = WorkSample.objects.create(
+                    template=data['worksample_template'],
+                    applicant_name='{} {}'.format(first_name, last_name),
+                    applicant_email=applicant_email,
+                )
+            else:
+                # if we're not actually sending the email, don't save the
+                # worksample instance to the DB
+                worksample = WorkSample(
+                    template=data['worksample_template'],
+                    applicant_name='{} {}'.format(first_name, last_name),
+                    applicant_email=applicant_email,
+                )
             path = worksample.get_absolute_url()
             worksample_url = request.build_absolute_uri(path)
             context = Context(dict(
