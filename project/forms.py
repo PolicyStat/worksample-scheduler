@@ -14,6 +14,7 @@ class BulkCreateSendForm(forms.Form):
     from_address = forms.CharField(max_length=200)
     email_subject = forms.CharField(max_length=200)
     email_template = forms.CharField()
+    show_preview = forms.BooleanField()
 
     def clean_applicant_names_and_emails(self):
         data = self.cleaned_data['applicant_names_and_emails']
@@ -22,6 +23,11 @@ class BulkCreateSendForm(forms.Form):
             for line in data.split('\n')
         ]
         return applicant_names_and_emails
+
+    def clean_show_preview(self):
+        if self.cleaned_data['show_preview'] == 'preview':
+            return True
+        return False
 
     def _build_email_messages(self, request):
         data = self.cleaned_data
