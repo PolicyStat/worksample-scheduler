@@ -7,7 +7,7 @@ ln -s dev.env .env
 pipenv install --dev --python=3.6
 pipenv shell
 
-python manage.py migrate --run-syncdb
+python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
