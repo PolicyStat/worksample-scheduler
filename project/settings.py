@@ -125,10 +125,10 @@ class Development(Common, Configuration):
 class Production(Common, Configuration):
     DEBUG = False
     ALLOWED_HOSTS = values.ListValue([], separator=' ')
-    SESSION_COOKIE_SECURE = values.BooleanValue(True)
+    SESSION_COOKIE_SECURE = values.BooleanValue(False)
     SECURE_BROWSER_XSS_FILTER = values.BooleanValue(True)
     SECURE_CONTENT_TYPE_NOSNIFF = values.BooleanValue(True)
-    SECURE_SSL_REDIRECT = values.BooleanValue(True)
+    SECURE_SSL_REDIRECT = values.BooleanValue(False)
     SECURE_SSL_HOST = values.Value(None)
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
