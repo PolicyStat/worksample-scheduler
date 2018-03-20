@@ -5,19 +5,18 @@
 
 - block content
     .container
+        .alert.alert-info.sticky-top
+            You have
+            {{ worksample.template.allowed_minutes }}
+            minutes
+            from
+            %strong
+                {{ worksample.start_time|date:"H:i T" }}
+            to complete this this work sample.
+
         .card.mb-4
             .card-body
                 {{ worksample.template.welcome_message|safe }}
-            .card-footer.text-center
-                Started on
-                %strong
-                    {{ worksample.start_time|date:"Y-m-d" }}
-                at
-                %strong
-                    {{ worksample.start_time|date:"H:i T" }}.
-                You now have
-                {{ worksample.template.allowed_minutes }}
-                minutes to complete this work sample.
 
         .card.mb-4
             .card-body
