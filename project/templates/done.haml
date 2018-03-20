@@ -13,5 +13,21 @@
                 Your work sample has been successfully submitted.
                 We'll review your submission,
                 and be in touch soon.
+            %p
+                You completed the work sample in
+                {{ worksample.get_time_spent_in_minutes|floatformat }}
+                minutes.
+                This is
+                {{ worksample.get_time_difference_from_allowed_time|floatformat }}
+                - if worksample.get_time_spent_in_minutes > worksample.template.allowed_minutes
+                    minutes longer than the
+                    {{ worksample.template.allowed_minutes }}-minute
+                    window,
+                    which may affect our decision.
+                - else
+                    minutes under the
+                    {{ worksample.template.allowed_minutes }}-minute
+                    window.
+                    Nicely done!
         %p
             {{ worksample.template.final_message|safe }}
