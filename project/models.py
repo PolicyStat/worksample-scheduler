@@ -59,3 +59,7 @@ class WorkSample(TimeStampedModel):
             return
         delta = self.finish_time - self.start_time
         return delta.total_seconds() / 60
+
+    def get_time_difference_from_allowed_time(self):
+        time_spent = self.get_time_spent_in_minutes()
+        return abs(time_spent - self.template.allowed_minutes)
