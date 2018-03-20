@@ -7,8 +7,8 @@ from project.models import WorkSampleTemplate, WorkSample
 
 class WorkSampleTemplateAdmin(admin.ModelAdmin):
     list_display = (
-        'is_active',
         'description',
+        'is_active',
         'allowed_minutes',
         'email_recipients',
         'created',
