@@ -24,17 +24,23 @@
             .card-body
                 {{ worksample.template.welcome_message|safe }}
             .card-footer.text-center
-                %p
-                    You will have
-                    {{ worksample.template.allowed_minutes }}
-                    minutes to complete this work sample.
-                    The timer starts once you click the button below.
 
-                %form{
+                %form.needs-validation{
                     method: 'post',
                     action: '{% url "start_worksample" uuid=worksample.uuid %}',
                 }
                     - csrf_token
+                    .form-group
+                        .alert.alert-warning
+                            %h4.alert-heading
+                                Heads up!
+                            .form-check
+                                %input.form-check-input{type:"checkbox", required}
+                                %label.form-check-label
+                                    You will have
+                                    {{ worksample.template.allowed_minutes }}
+                                    minutes to complete this work sample.
+                                    The timer starts once you click the button below.
                     %button.btn.btn-primary.btn-lg{
                         type: 'submit',
                     }
