@@ -1,4 +1,5 @@
 - extends 'base.haml'
+- load static
 
 - block page_title
     Bulk Create and Send Work Samples
@@ -103,20 +104,15 @@
                     .form-group
                         %label
                             Email template
-                        %textarea.form-control{
-                            rows: "10",
-                            name:'email_template',
-                            placeholder: 'Type here. Example: Hello {% verbatim %}{{ APPLICANT_FIRST_NAME }}{% endverbatim %}, ...',
-                            required,
-                        } {{ form.email_template }}
                         %small.form-text.text-muted
-                            HTML is allowed.
                             You can use the following placeholders in the template:
                             {% verbatim %}
                             <strong>{{ APPLICANT_FIRST_NAME }}</strong>
                             and
                             <strong>{{ WORKSAMPLE_URL }}</strong>
                             {% endverbatim %}
+                        .form-control
+                            {{ editor_html }}
 
                     .form-group
                         .alert.alert-warning
@@ -137,3 +133,9 @@
                                 Preview
                             %button.btn.btn-success.btn-lg{type: 'submit', name: 'should_send_emails', value: 'true'}
                                 Send emails
+    %script{
+        src: "{% static 'ckeditor/ckeditor-init.js' %}",
+    }
+    %script{
+        src: "{% static 'ckeditor/ckeditor/ckeditor.js' %}",
+    }
