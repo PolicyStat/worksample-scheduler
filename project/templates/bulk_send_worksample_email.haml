@@ -133,8 +133,9 @@
                                 Preview
                             %button.btn.btn-success.btn-lg{type: 'submit', name: 'should_send_emails', value: 'true'}
                                 Send emails
-    %script{
+    %script#ckeditor-init-script{
         src: "{% static 'ckeditor/ckeditor-init.js' %}",
+        data-ckeditor-basepath: "{% static 'ckeditor/ckeditor/' %}",
     }
     %script{
         src: "{% static 'ckeditor/ckeditor/ckeditor.js' %}",
