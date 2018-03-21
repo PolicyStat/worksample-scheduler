@@ -29,6 +29,7 @@ class Common(object):
         'django.contrib.staticfiles',
 
         'django_extensions',
+        'ckeditor',
         'project',
     ]
 
