@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
 
+from ckeditor.widgets import CKEditorWidget
+
 from project.forms import BulkCreateSendForm
 from project.models import WorkSample, WorkSampleTemplate
 
@@ -133,15 +135,26 @@ def download_worksample_submission(request, uuid):
 @staff_member_required
 def bulk_send_worksample_email(request):
     if request.method != 'POST':
+        editor = CKEditorWidget(
+            config_name='admin',
+            attrs={
+                'id': 'email_template_editor',
+            }
+        )
         template = 'bulk_send_worksample_email.haml'
         templates = list(WorkSampleTemplate.objects.filter(
             is_active=True,
         ).values_list('pk', 'description'))
         emails = request.session.pop('emails', None)
+
+        form = request.session.get('bulk_create_form', {})
+        editor_html = editor.render('email_template', form.get('email_template'))
+
         context = dict(
             worksample_templates=templates,
-            form=request.session.get('bulk_create_form'),
+            form=form,
             emails=emails,
+            editor_html=editor_html,
         )
         return render(request, template, context)
 
