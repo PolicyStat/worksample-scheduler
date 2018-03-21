@@ -1,7 +1,7 @@
 from django import forms
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template
-from django.utils.html import linebreaks, strip_tags
+from django.utils.html import strip_tags
 
 from project.models import WorkSample, WorkSampleTemplate
 
@@ -72,8 +72,7 @@ class BulkCreateSendForm(forms.Form):
                 body=body_no_html,
             )
             if body_no_html != body:
-                body_with_converted_linebreaks = linebreaks(body)
-                email.attach_alternative(body_with_converted_linebreaks, 'text/html')
+                email.attach_alternative(body, 'text/html')
             yield email
 
     def send_emails(self, request):
