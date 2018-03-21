@@ -65,6 +65,35 @@ class Common(object):
         },
     ]
 
+    CKEDITOR_CONFIGS = {
+        'admin': {
+            'toolbar': 'custom',
+            'toolbar_custom': [
+                {'name': 'document', 'items': ['Source']},
+                {'name': 'clipboard', 'items': [
+                    'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
+                    'Undo', 'Redo'
+                ]},
+                {'name': 'editing', 'items': [
+                    'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt',
+                ]},
+                {'name': 'styles', 'items': ['Styles', 'Format']},
+                '/',
+                {'name': 'basicstyles', 'items': [
+                    'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                    'Superscript', '-', 'CopyFormatting', 'RemoveFormat',
+                ]},
+                {'name': 'paragraph', 'items': [
+                    'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent',
+                    '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter',
+                    'JustifyRight', 'JustifyBlock',
+                ]},
+                {'name': 'links', 'items': ['Link', 'Unlink']},
+                {'name': 'insert', 'items': ['Table', 'HorizontalRule']},
+            ],
+        },
+    }
+
     WSGI_APPLICATION = 'project.wsgi.application'
 
     DATABASES = values.DatabaseURLValue(
