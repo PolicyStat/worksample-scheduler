@@ -23,7 +23,16 @@ class CustomMenu(Menu):
             items.AppList(
                 _('Administration'),
                 models=('django.contrib.*',)
-            )
+            ),
+            items.MenuItem(
+                _('Tools'),
+                children=[
+                    items.MenuItem(
+                        _('Bulk Send Worksample Emails'),
+                        reverse('bulk_create_worksample'),
+                    ),
+                ],
+            ),
         ]
 
     def init_with_context(self, context):
