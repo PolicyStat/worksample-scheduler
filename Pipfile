@@ -18,6 +18,7 @@ django-hamlpy = "==1.1.1"
 sendgrid = "==5.3.0"
 "django-sendgrid-v5" = "==0.6.87"
 django-ckeditor = "==5.4.0"
+django-admin-tools = "==0.8.1"
 
 
 [dev-packages]
