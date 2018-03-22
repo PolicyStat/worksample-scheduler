@@ -20,6 +20,11 @@ class Common(object):
     ALLOWED_HOSTS = ['*']
 
     INSTALLED_APPS = [
+        'admin_tools',
+        'admin_tools.theming',
+        'admin_tools.menu',
+        'admin_tools.dashboard',
+
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -59,6 +64,7 @@ class Common(object):
                     'django.contrib.messages.context_processors.messages',
                 ],
                 'loaders': (
+                    'admin_tools.template_loaders.Loader',
                     'hamlpy.template.loaders.HamlPyFilesystemLoader',
                     'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
                 ),
@@ -141,6 +147,10 @@ class Common(object):
     SERVER_EMAIL = values.Value(None)
     # DJANGO_ADMINS=Bob,bob@bob.com;Dave,dave@dave.com
     ADMINS = values.SingleNestedTupleValue([])
+
+    ADMIN_TOOLS_MENU = 'project.admin_menu.CustomMenu'
+    ADMIN_TOOLS_INDEX_DASHBOARD = 'project.admin_dashboard.CustomIndexDashboard'
+    ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'project.admin_dashboard.CustomAppIndexDashboard'
 
 
 class Development(Common, Configuration):
