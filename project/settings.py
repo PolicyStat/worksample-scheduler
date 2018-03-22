@@ -161,6 +161,7 @@ class Production(Common, Configuration):
     SECURE_SSL_REDIRECT = values.BooleanValue(False)
     SECURE_SSL_HOST = values.Value(None)
     CSRF_COOKIE_DOMAIN = values.Value(None)
+    CSRF_USE_SESSIONS = values.BooleanValue(False)
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     SENDGRID_API_KEY = values.Value(None, environ_prefix=None, environ_required=True)
