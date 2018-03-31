@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from django.urls import reverse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template.loader import render_to_string
@@ -100,9 +101,13 @@ def email_worksample(request, worksample):
         for email in worksample.template.email_recipients.split(',')
     ]
 
+    worksample_path = reverse('download_worksample', kwargs=dict(uuid=worksample.uuid))
+    worksample_url = request.build_absolute_uri(worksample_path)
+
     context = dict(
         request=request,
         worksample=worksample,
+        worksample_url=worksample_url,
     )
     message = render_to_string('submission_email.txt', context)
 
@@ -111,10 +116,6 @@ def email_worksample(request, worksample):
         to=recipients,
         subject=subject,
         body=message,
-    )
-    email.attach(
-        filename=worksample.submission_file_name,
-        content=worksample.submission,
     )
     email.send()
 
