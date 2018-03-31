@@ -15,3 +15,5 @@ Work Sample UUID: {{ worksample.uuid }}
 IP Address: {{ request.META.REMOTE_ADDR }}
 
 Browser: {{ request.META.HTTP_USER_AGENT }}
+
+Submission: {{ worksample_url }}
