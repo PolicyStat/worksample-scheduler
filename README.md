@@ -1,11 +1,14 @@
 # Work Sample Scheduler
 
+Requires python 3.6+
+
 ## Local Quick start
 
 ```
 ln -s dev.env .env
-pipenv install --dev --python=3.6
-pipenv shell
+
+mkvirtualenv -r requirements.txt -a $(pwd) worksample-scheduler
+pip install -r requirements-dev.txt
 
 python manage.py migrate
 python manage.py createsuperuser
@@ -18,8 +21,7 @@ python manage.py runserver
 heroku create
 
 ln -s dev.env .env
-pipenv install --dev --python=3.6
-pipenv shell
+
 heroku addons:attach heroku-postgresql:hobby-dev
 heroku config:set DJANGO_SECRET_KEY=$(python manage.py generate_secret_key)
 heroku config:set DJANGO_ALLOWED_HOSTS='<appname>.herokuapp.com'
