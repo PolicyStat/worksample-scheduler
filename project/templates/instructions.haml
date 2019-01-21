@@ -6,13 +6,24 @@
 - block content
     .container
         .alert.alert-info.sticky-top
-            You have
-            {{ worksample.template.allowed_minutes }}
-            minutes
-            from
-            %strong
-                {{ worksample.start_time|date:"H:i T" }}
-            to complete this work sample.
+            %ul
+                %li
+                    You have
+                    {{ worksample.template.allowed_minutes }}
+                    minutes
+                    (starting
+                    <strong>{{ worksample.start_time|date:"H:i T" }}</strong>)
+                    to complete this work sample
+                %li
+                    Your solution must be submitted
+                    %strong
+                        before
+                        {{ worksample.expected_finish_time|date:"H:i T" }}
+                %li
+                    The form will
+                    %strong
+                        NOT
+                    accept any submissions afterwards
 
         .card.mb-4
             .card-body
