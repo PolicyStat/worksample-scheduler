@@ -5,10 +5,10 @@ Requires python 3.6+
 ## Local Quick start
 
 ```
-ln -s dev.env .env
+cp dev.env .env
 
-mkvirtualenv -r requirements.txt -a $(pwd) worksample-scheduler
-pip install -r requirements-dev.txt
+direnv allow
+pip install -r requirements.txt -r requirements-dev.txt
 
 python manage.py migrate
 python manage.py createsuperuser
