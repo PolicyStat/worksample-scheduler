@@ -1,5 +1,6 @@
 import mimetypes
 import logging
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
@@ -33,42 +34,42 @@ def index(request):
 
 def worksample(request, uuid):
     obj = get_object_or_404(WorkSample, uuid=uuid)
-    template = 'welcome.haml'
-    if obj.finish_time:
-        template = 'done.haml'
-    elif obj.start_time:
-        template = 'instructions.haml'
     context = dict(
         worksample=obj,
     )
+    if not obj.start_time:
+        template = 'welcome.haml'
+    elif obj.finish_time:
+        template = 'done.haml'
+    elif not can_complete_worksample(obj):
+        template = 'out_of_time.haml'
+    else:
+        template = 'instructions.haml'
     return render(request, template, context)
-
-
-def can_start_worksample(request, worksample):
-    if request.method != 'POST':
-        return False
-    return worksample.start_time is None
 
 
 def start_worksample(request, uuid):
     worksample = get_object_or_404(WorkSample, uuid=uuid)
-    if can_start_worksample(request, worksample):
+    if request.method == 'POST' and worksample.start_time is None:
         worksample.start_time = timezone.now()
         worksample.save()
     return redirect('worksample', uuid=uuid)
 
 
-def can_complete_worksample(request, worksample):
-    if request.method != 'POST':
-        return False
+def can_complete_worksample(worksample):
     if worksample.start_time is None:
+        return False
+    submission_buffer = timedelta(minutes=2)
+    max_finish_time = worksample.expected_finish_time() + submission_buffer
+    now = timezone.now()
+    if now > max_finish_time:
         return False
     return worksample.finish_time is None
 
 
 def complete_worksample(request, uuid):
     worksample = get_object_or_404(WorkSample, uuid=uuid)
-    if can_complete_worksample(request, worksample):
+    if can_complete_worksample(worksample):
         submission = request.FILES['submission']
         save_worksample(worksample, submission)
         email_worksample(request, worksample)

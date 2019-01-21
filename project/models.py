@@ -1,4 +1,5 @@
 import uuid
+from datetime import timedelta
 
 from django.conf import settings
 from django.db import models
@@ -63,3 +64,6 @@ class WorkSample(TimeStampedModel):
     def get_time_difference_from_allowed_time(self):
         time_spent = self.get_time_spent_in_minutes()
         return abs(time_spent - self.template.allowed_minutes)
+
+    def expected_finish_time(self):
+        return self.start_time + timedelta(minutes=self.template.allowed_minutes)

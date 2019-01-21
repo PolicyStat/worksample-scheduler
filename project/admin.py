@@ -55,7 +55,13 @@ class WorkSampleAdmin(admin.ModelAdmin):
         'modified',
         'created_by_user',
     )
-    fields = ('template', 'applicant_name', 'applicant_email')
+    fields = (
+        'template',
+        'applicant_name',
+        'applicant_email',
+        'start_time',
+        'finish_time',
+    )
 
     def save_model(self, request, obj, form, change):
         if not hasattr(obj, 'created_by_user'):
