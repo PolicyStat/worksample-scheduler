@@ -5,7 +5,7 @@ django-configurations==2.1
 django-extensions==2.1.4
 django-hamlpy==1.2
 django-sendgrid-v5==0.7.0
-django==2.0.9
+django==2.0.10
 psycopg2==2.7.6.1
 sendgrid==5.6.0
 waitress==1.1.0
