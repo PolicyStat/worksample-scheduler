@@ -37,11 +37,12 @@
                             .form-check
                                 %input.form-check-input{type:"checkbox", required}
                                 %label.form-check-label
-                                    You will have
-                                    {{ worksample.template.allowed_minutes }}
-                                    minutes to complete this work sample.
-                                    The timer starts once you click the button below.
-                    %button.btn.btn-primary.btn-lg{
-                        type: 'submit',
-                    }
+                                    I understand there are
+                                    %strong only {{ worksample.template.allowed_minutes }} minutes
+                                    to complete this work sample.
+                                    I understand that the submission form
+                                    %strong will be disabled
+                                    after this time limit,
+                                    and no submissions will be permitted or reviewed after that point.
+                    %button.btn.btn-primary.btn-lg{type: 'submit'}
                         Begin
