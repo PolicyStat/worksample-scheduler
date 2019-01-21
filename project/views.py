@@ -37,12 +37,13 @@ def worksample(request, uuid):
     context = dict(
         worksample=obj,
     )
-    template = 'welcome.haml'
-    if obj.finish_time:
+    if not obj.start_time:
+        template = 'welcome.haml'
+    elif obj.finish_time:
         template = 'done.haml'
     elif not can_complete_worksample(obj):
         template = 'out_of_time.haml'
-    elif obj.start_time:
+    else:
         template = 'instructions.haml'
     return render(request, template, context)
 
