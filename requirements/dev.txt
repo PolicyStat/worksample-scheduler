@@ -6,77 +6,22 @@
 #    pip-compile-multi
 #
 -r base.txt
-backcall==0.1.0 \
-    --hash=sha256:38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4 \
-    --hash=sha256:bbbf4b1e5cd2bdb08f915895b51081c041bac22394fdfcfdfbe9f14b77c08bf2 \
-    # via ipython
-decorator==4.3.2 \
-    --hash=sha256:33cd704aea07b4c28b3eb2c97d288a06918275dac0ecebdaf1bc8a48d98adb9e \
-    --hash=sha256:cabb249f4710888a2fc0e13e9a16c343d932033718ff62e1e9bc93a9d3a9122b \
-    # via ipython, traitlets
-entrypoints==0.3 \
-    --hash=sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19 \
-    --hash=sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451 \
-    # via flake8
-flake8==3.7.5 \
-    --hash=sha256:c3ba1e130c813191db95c431a18cb4d20a468e98af7a77e2181b68574481ad36 \
-    --hash=sha256:fd9ddf503110bf3d8b1d270e8c673aab29ccb3dd6abf29bae1f54e5116ab4a91
-ipdb==0.11 \
-    --hash=sha256:7081c65ed7bfe7737f83fa4213ca8afd9617b42ff6b3f1daf9a3419839a2a00a
-ipython-genutils==0.2.0 \
-    --hash=sha256:72dd37233799e619666c9f639a9da83c34013a73e8bbc79a7a6348d93c61fab8 \
-    --hash=sha256:eb2e116e75ecef9d4d228fdc66af54269afa26ab4463042e33785b887c628ba8 \
-    # via traitlets
-ipython==7.2.0 \
-    --hash=sha256:6a9496209b76463f1dec126ab928919aaf1f55b38beb9219af3fe202f6bbdd12 \
-    --hash=sha256:f69932b1e806b38a7818d9a1e918e5821b685715040b48e59c657b3c7961b742 \
-    # via ipdb
-jedi==0.13.2 \
-    --hash=sha256:571702b5bd167911fe9036e5039ba67f820d6502832285cde8c881ab2b2149fd \
-    --hash=sha256:c8481b5e59d34a5c7c42e98f6625e633f6ef59353abea6437472c7ec2093f191 \
-    # via ipython
-mccabe==0.6.1 \
-    --hash=sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42 \
-    --hash=sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f \
-    # via flake8
-parso==0.3.4 \
-    --hash=sha256:4580328ae3f548b358f4901e38c0578229186835f0fa0846e47369796dd5bcc9 \
-    --hash=sha256:68406ebd7eafe17f8e40e15a84b56848eccbf27d7c1feb89e93d8fca395706db \
-    # via jedi
-pexpect==4.6.0 \
-    --hash=sha256:2a8e88259839571d1251d278476f3eec5db26deb73a70be5ed5dc5435e418aba \
-    --hash=sha256:3fbd41d4caf27fa4a377bfd16fef87271099463e6fa73e92a52f92dfee5d425b \
-    # via ipython
-pickleshare==0.7.5 \
-    --hash=sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca \
-    --hash=sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56 \
-    # via ipython
-prompt-toolkit==2.0.8 \
-    --hash=sha256:88002cc618cacfda8760c4539e76c3b3f148ecdb7035a3d422c7ecdc90c2a3ba \
-    --hash=sha256:c6655a12e9b08edb8cf5aeab4815fd1e1bdea4ad73d3bbf269cf2e0c4eb75d5e \
-    --hash=sha256:df5835fb8f417aa55e5cafadbaeb0cf630a1e824aad16989f9f0493e679ec010 \
-    # via ipython
-ptyprocess==0.6.0 \
-    --hash=sha256:923f299cc5ad920c68f2bc0bc98b75b9f838b93b599941a6b63ddbc2476394c0 \
-    --hash=sha256:d7cc528d76e76342423ca640335bd3633420dc1366f258cb31d05e865ef5ca1f \
-    # via pexpect
-pycodestyle==2.5.0 \
-    --hash=sha256:95a2219d12372f05704562a14ec30bc76b05a5b297b21a5dfe3f6fac3491ae56 \
-    --hash=sha256:e40a936c9a450ad81df37f549d676d127b1b66000a6c500caa2b085bc0ca976c \
-    # via flake8
-pyflakes==2.1.0 \
-    --hash=sha256:5e8c00e30c464c99e0b501dc160b13a14af7f27d4dffb529c556e30a159e231d \
-    --hash=sha256:f277f9ca3e55de669fba45b7393a1449009cff5a37d1af10ebb76c52765269cd \
-    # via flake8
-pygments==2.3.1 \
-    --hash=sha256:5ffada19f6203563680669ee7f53b64dabbeb100eb51b61996085e99c03b284a \
-    --hash=sha256:e8218dd399a61674745138520d0d4cf2621d7e032439341bc3f647bff125818d \
-    # via ipython
-traitlets==4.3.2 \
-    --hash=sha256:9c4bd2d267b7153df9152698efb1050a5d84982d3384a37b2c1f7723ba3e7835 \
-    --hash=sha256:c6cb5e6f57c5a9bdaa40fa71ce7b4af30298fbab9ece9815b5d995ab6217c7d9 \
-    # via ipython
-wcwidth==0.1.7 \
-    --hash=sha256:3df37372226d6e63e1b1e1eda15c594bca98a22d33a23832a90998faa96bc65e \
-    --hash=sha256:f4ebe71925af7b40a864553f761ed559b43544f8f71746c2d756c7fe788ade7c \
-    # via prompt-toolkit
+backcall==0.1.0           # via ipython
+decorator==4.3.2          # via ipython, traitlets
+entrypoints==0.3          # via flake8
+flake8==3.7.5
+ipdb==0.11
+ipython-genutils==0.2.0   # via traitlets
+ipython==7.2.0            # via ipdb
+jedi==0.13.2              # via ipython
+mccabe==0.6.1             # via flake8
+parso==0.3.4              # via jedi
+pexpect==4.6.0            # via ipython
+pickleshare==0.7.5        # via ipython
+prompt-toolkit==2.0.8     # via ipython
+ptyprocess==0.6.0         # via pexpect
+pycodestyle==2.5.0        # via flake8
+pyflakes==2.1.0           # via flake8
+pygments==2.3.1           # via ipython
+traitlets==4.3.2          # via ipython
+wcwidth==0.1.7            # via prompt-toolkit
