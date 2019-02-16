@@ -8,7 +8,7 @@ Requires python 3.6+
 cp dev.env .env
 
 direnv allow
-pip install -r requirements.txt -r requirements-dev.txt
+pip install -r requirements/dev.txt
 
 python manage.py migrate
 python manage.py createsuperuser
@@ -33,6 +33,19 @@ git push heroku master
 heroku run python manage.py migrate
 heroku run python manage.py createsuperuser
 heroku open
+
+
+## Updating requirements
+
+
+```
+$ pip-compile-multi verify
+OK - requirements/base.txt was generated from requirements/base.in.
+OK - requirements/dev.txt was generated from requirements/dev.in.
+$ edit requirements/base.in
+$ pip-compile-multi --no-upgrade
+$ git diff
+$ git commit
 ```
 
 ## Enable email
