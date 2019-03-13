@@ -44,7 +44,7 @@ $ pip-compile-multi verify
 OK - requirements/base.txt was generated from requirements/base.in.
 OK - requirements/dev.txt was generated from requirements/dev.in.
 $ edit requirements/base.in
-$ pip-compile-multi --no-upgrade
+$ pip-compile-multi --no-upgrade --generate-hashes base
 $ git diff
 $ git commit
 ```
