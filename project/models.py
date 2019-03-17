@@ -15,10 +15,10 @@ class WorkSampleTemplate(TimeStampedModel):
         help_text='What role is this for?',
     )
     welcome_message = models.TextField(
-        help_text='The first page that is displayed. HTML is allowed.'
+        help_text='The first page that is displayed. Use Markdown.'
     )
     instructions = models.TextField(
-        help_text='The work sample instructions. HTML is allowed.'
+        help_text='The work sample instructions. Use Markdown.'
     )
     final_message = models.TextField(
         help_text='The page that appears after submitting. HTML is allowed.'
