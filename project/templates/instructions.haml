@@ -1,4 +1,5 @@
 - extends 'base.haml'
+- load markdownify
 
 - block page_title
     Work Sample Instructions
@@ -26,12 +27,12 @@
                     accept any submissions afterwards
 
         .card.mb-4
-            .card-body
-                {{ worksample.template.welcome_message|safe }}
+            .card-body.markdown-body
+                {{ worksample.template.welcome_message|markdownify }}
 
         .card.mb-4
-            .card-body
-                {{ worksample.template.instructions|safe }}
+            .card-body.markdown-body
+                {{ worksample.template.instructions|markdownify }}
 
         .card
             .card-header
