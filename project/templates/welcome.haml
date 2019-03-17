@@ -1,4 +1,5 @@
 - extends 'base.haml'
+- load markdownify
 
 - block page_title
     PolicyStat Work Sample Welcome
@@ -21,8 +22,8 @@
         .card
             .card-header
                 Instructions
-            .card-body
-                {{ worksample.template.welcome_message|safe }}
+            .card-body.markdown-body
+                {{ worksample.template.welcome_message|markdownify }}
             .card-footer.text-center
 
                 %form.needs-validation{
