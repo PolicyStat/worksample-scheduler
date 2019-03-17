@@ -33,10 +33,13 @@ class Common(object):
         'whitenoise.runserver_nostatic',
         'django.contrib.staticfiles',
 
+        'markdownify',
         'django_extensions',
         'ckeditor',
         'project',
     ]
+
+    MARKDOWNIFY_BLEACH = False
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
