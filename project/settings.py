@@ -40,6 +40,7 @@ class Common(object):
     ]
 
     MARKDOWNIFY_BLEACH = False
+    MARKDOWNIFY_MARKDOWN_EXTENSIONS = ['tables']
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
