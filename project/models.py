@@ -21,7 +21,7 @@ class WorkSampleTemplate(TimeStampedModel):
         help_text='The work sample instructions. Use Markdown.'
     )
     final_message = models.TextField(
-        help_text='The page that appears after submitting. HTML is allowed.'
+        help_text='The page that appears after submitting. Use Markdown.'
     )
     allowed_minutes = models.IntegerField()
     email_recipients = models.TextField(
