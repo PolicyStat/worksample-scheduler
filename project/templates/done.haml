@@ -1,4 +1,5 @@
 - extends 'base.haml'
+- load markdownify
 
 - block page_title
     Work Sample Submitted
@@ -29,5 +30,5 @@
                     {{ worksample.template.allowed_minutes }}-minute
                     window.
                     Nicely done!
-        %p
-            {{ worksample.template.final_message|safe }}
+        .final-message
+            {{ worksample.template.final_message|markdownify }}
