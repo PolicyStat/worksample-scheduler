@@ -1,27 +1,11 @@
-from django import forms
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from ckeditor.widgets import CKEditorWidget
-
 from project.models import WorkSampleTemplate, WorkSample
 
 
-class WorkSampleTemplateAdminForm(forms.ModelForm):
-    class Meta:
-        model = WorkSampleTemplate
-        widgets = {
-            'welcome_message': CKEditorWidget(config_name='admin'),
-            'instructions': CKEditorWidget(config_name='admin'),
-            'final_message': CKEditorWidget(config_name='admin'),
-        }
-        fields = '__all__'
-
-
 class WorkSampleTemplateAdmin(admin.ModelAdmin):
-    form = WorkSampleTemplateAdminForm
-
     list_display = (
         'description',
         'is_active',
