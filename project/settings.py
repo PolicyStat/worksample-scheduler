@@ -146,7 +146,7 @@ class Common(object):
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-    EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+    EMAIL_BACKEND = values.Value('django.core.mail.backends.dummy.EmailBackend')
     SENDGRID_API_KEY = values.Value(None, environ_prefix=None)
     SERVER_EMAIL = values.Value(None)
     # DJANGO_ADMINS=Bob,bob@bob.com;Dave,dave@dave.com
