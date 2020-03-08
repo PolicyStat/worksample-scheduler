@@ -102,7 +102,7 @@ def email_worksample(request, worksample):
         for email in worksample.template.email_recipients.split(',')
     ]
 
-    worksample_path = reverse('download_worksample', kwargs=dict(uuid=worksample.uuid))
+    worksample_path = reverse('admin:worksample_download', kwargs=dict(uuid=worksample.uuid))
     worksample_url = request.build_absolute_uri(worksample_path)
 
     context = dict(
@@ -119,19 +119,6 @@ def email_worksample(request, worksample):
         body=message,
     )
     email.send()
-
-
-@staff_member_required
-def download_worksample_submission(request, uuid):
-    worksample = get_object_or_404(WorkSample, uuid=uuid)
-    content_type, encoding = mimetypes.guess_type(worksample.submission_file_name)
-    response = HttpResponse(worksample.submission, content_type=content_type)
-    disposition = 'attachment; filename="{}"'.format(
-        worksample.submission_file_name,
-    )
-    response['Content-Disposition'] = disposition
-    response['Content-Length'] = len(worksample.submission)
-    return response
 
 
 @staff_member_required
