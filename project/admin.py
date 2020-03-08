@@ -1,4 +1,5 @@
 import mimetypes
+import pathlib
 
 from django.contrib import admin
 from django.http import HttpResponse
@@ -70,9 +71,9 @@ class WorkSampleAdmin(admin.ModelAdmin):
         worksample = get_object_or_404(self.model, uuid=uuid)
         content_type, encoding = mimetypes.guess_type(worksample.submission_file_name)
         response = HttpResponse(worksample.submission, content_type=content_type)
-        disposition = 'attachment; filename="{}"'.format(
-            worksample.submission_file_name,
-        )
+        suffix = pathlib.Path(worksample.submission_file_name).suffix
+        file_name = worksample.applicant_name.lower().replace(' ', '_') + suffix
+        disposition = f'attachment; filename="{file_name}"'
         response['Content-Disposition'] = disposition
         response['Content-Length'] = len(worksample.submission)
         return response
