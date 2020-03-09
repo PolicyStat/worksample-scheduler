@@ -1,0 +1,17 @@
+- extends "admin/base_site.html"
+
+- block extrahead
+    :css
+        textarea {
+            width: 500px;
+            height: 300px;
+        }
+
+- block content
+    %form{method: 'POST'}
+        - csrf_token
+        - for name, url in worksamples
+            %div {{ name }},{{ url }}
+        %textarea{name: 'bulk-create', placeholder: 'email, name, template'}
+        .submit-row
+            %input{type: 'submit', value: 'Create Work Samples'}

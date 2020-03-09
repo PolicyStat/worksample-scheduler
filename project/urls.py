@@ -7,11 +7,6 @@ urlpatterns = [
     path('admin_tools/', include('admin_tools.urls')),
     path('admin/', admin.site.urls),
     path('', project.views.index, name='index'),
-    path(
-        'worksample/bulk_create',
-        project.views.bulk_send_worksample_email,
-        name='bulk_create_worksample',
-    ),
     path('worksample/<uuid:uuid>', project.views.worksample, name='worksample'),
     path(
         'worksample/<uuid:uuid>/start',

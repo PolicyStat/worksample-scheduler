@@ -1,11 +1,13 @@
+import csv
 import mimetypes
 import pathlib
 
 from django.contrib import admin
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.html import format_html
-from django.shortcuts import get_object_or_404
 
 from project.models import WorkSampleTemplate, WorkSample
 
@@ -63,9 +65,39 @@ class WorkSampleAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         admin_view = self.admin_site.admin_view
         my_urls = [
-            path('<uuid:uuid>/download', admin_view(self.download), name='worksample_download')
+            path('bulk_create', admin_view(self.bulk_create), name='worksample_bulk_create'),
+            path('<uuid:uuid>/download', admin_view(self.download), name='worksample_download'),
         ]
         return my_urls + urls
+
+    def bulk_create(self, request):
+        context = dict(
+            title='Bulk Create Work Samples',
+        )
+        if request.method == 'POST':
+            fieldnames = ['email', 'name', 'template']
+            data = request.POST['bulk-create'].split('\n')
+            dialect = csv.Sniffer().sniff(data[0])
+            reader = csv.DictReader(data, dialect=dialect, fieldnames=fieldnames)
+            templates = {}
+            worksamples = []
+            for row in reader:
+                template = templates.get(row['template'])
+                if template is None:
+                    template = WorkSampleTemplate.objects.get(description=row['template'])
+                    templates[row['template']] = template
+                worksample = WorkSample.objects.create(
+                    created_by_user=request.user,
+                    template=template,
+                    applicant_name=row['name'],
+                    applicant_email=row['email'],
+                )
+                worksamples.append((
+                    worksample.applicant_name,
+                    request.build_absolute_uri(worksample.get_absolute_url()),
+                ))
+            context['worksamples'] = worksamples
+        return TemplateResponse(request, "bulk_create.haml", context)
 
     def download(self, request, uuid):
         worksample = get_object_or_404(self.model, uuid=uuid)

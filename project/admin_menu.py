@@ -28,8 +28,8 @@ class CustomMenu(Menu):
                 _('Tools'),
                 children=[
                     items.MenuItem(
-                        _('Bulk Send Worksample Emails'),
-                        reverse('bulk_create_worksample'),
+                        _('Bulk Create Work Samples'),
+                        reverse('admin:worksample_bulk_create'),
                     ),
                 ],
             ),
